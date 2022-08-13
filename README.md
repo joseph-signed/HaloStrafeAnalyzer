@@ -1,2 +1,2 @@
 # HaloStrafeAnalyzer
-Halo Infinite add on that allows the users to view and gather metrics on their strafe.
+Halo Infinite add on that allows the users to view and stream metrics on their strafe.
