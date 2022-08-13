@@ -1,30 +1,28 @@
 ﻿using SharpDX.XInput;
 
-
-namespace StrafinV2.Models
+namespace StrafinV2.Data
 {
-    internal class XInputController
+    public static class XInputController
     {
-        Controller controller;
-        Gamepad gamepad;
-        public bool connected = false;
-        public int deadband = 3200;
-        public float left_x = 0;
-        public float left_y = 0;
-        public float right_x = 0;
-        public float right_y = 0;
-
-        public XInputController()
+        static XInputController()
         {
             controller = new Controller(UserIndex.One);
             connected = controller.IsConnected;
         }
 
-        // Call this method to update all class values
-        public bool Update()
+        public static Controller controller;
+        public static Gamepad gamepad;
+        public static int deadband = 3200;
+        public static bool connected = false;
+        public static float left_x = 0;
+        public static float left_y = 0;
+        public static float right_x = 0;
+        public static float right_y = 0;
+
+        public static void Update()
         {
             if (!connected)
-                return false;
+                return;
 
             gamepad = controller.GetState().Gamepad;
 
@@ -33,8 +31,7 @@ namespace StrafinV2.Models
 
             right_x = (Math.Abs((float)gamepad.RightThumbX) < deadband) ? 0 : (float)gamepad.RightThumbX / short.MaxValue * 100;
             right_y = (Math.Abs((float)gamepad.RightThumbY) < deadband) ? 0 : (float)gamepad.RightThumbY / short.MaxValue * 100;
-            return true;
-
+            return;
         }
     }
 }

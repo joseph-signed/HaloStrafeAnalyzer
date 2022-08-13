@@ -1,0 +1,25 @@
+﻿@page "/strafeviewer"
+
+@using SharpDX.XInput
+@using StrafinV2.Data
+
+
+
+
+<h3>Strafe Viewer</h3>
+
+<p role="status">Current left joystick X position: @XInputController.left_x</p>
+
+<p role="status">Current left joystick Y position: @XInputController.left_y</p>
+
+<button class="btn btn-primary" @onclick="XInputController.Update">Update Coords</button>
+
+@code {
+    private float currentLeftStick_X = 0;
+    private float currentLeftStick_Y = 0;
+
+    private float currentRightStick_X = 0;
+    private float currentRightStick_Y = 0;
+}
+
+
