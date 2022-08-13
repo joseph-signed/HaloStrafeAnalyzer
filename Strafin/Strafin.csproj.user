@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <_LastSelectedProfileId>C:\Users\josep\source\repos\Strafin\Strafin\Properties\PublishProfiles\ClickOnceProfile.pubxml</_LastSelectedProfileId>
+  </PropertyGroup>
+  <ItemGroup>
+    <ApplicationDefinition Update="App.xaml">
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Update="LargeLeft.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="LargeRight.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="SmallLeft.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="LargeLeft.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="LargeRight.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="MainWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="SmallRight.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="SmallLeft.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+</Project>
