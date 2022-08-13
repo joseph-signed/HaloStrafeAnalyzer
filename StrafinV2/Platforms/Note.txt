@@ -1,0 +1,2 @@
+﻿This directory is used for code specific to a platform.
+Also, you can also use compiler statements to target specific platforms anywhere.
