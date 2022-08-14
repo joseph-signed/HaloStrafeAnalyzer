@@ -1,5 +1,5 @@
 ﻿@using Data
-
+<button class="btn btn-primary" @onclick="StartStrafeViewer">Start Viewer</button>
 <BECanvas Width="300" Height="400" @ref="_canvasReference"></BECanvas>
 
 @code {
@@ -12,6 +12,12 @@
     float right_y = XInputController.right_y;
 
     //repeatedly call update to get new values and then draw them on canvas
+    
+    protected void StartStrafeViewer()
+    {
+        
+    }
+    
     private Canvas2DContext _context;
 
     protected BECanvasComponent _canvasReference;
