@@ -1,7 +1,17 @@
-﻿<BECanvas Width="300" Height="400" @ref="_canvasReference"></BECanvas>
+﻿@using Data
+
+<BECanvas Width="300" Height="400" @ref="_canvasReference"></BECanvas>
 
 @code {
+    float left_x = XInputController.left_x;
+    
+    float left_y = XInputController.left_y;
+    
+    float right_x = XInputController.right_x;
+    
+    float right_y = XInputController.right_y;
 
+    //repeatedly call update to get new values and then draw them on canvas
     private Canvas2DContext _context;
 
     protected BECanvasComponent _canvasReference;
