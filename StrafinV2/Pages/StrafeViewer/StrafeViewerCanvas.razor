@@ -1,6 +1,4 @@
-﻿<h3>StrafeViewerCanvas</h3>
-
-<BECanvas Width="300" Height="400" @ref="_canvasReference"></BECanvas>
+﻿<BECanvas Width="300" Height="400" @ref="_canvasReference"></BECanvas>
 
 @code {
 
@@ -18,4 +16,36 @@
         await this._context.SetFontAsync("48px serif");
         await this._context.StrokeTextAsync("Hello Blazor!!!", 10, 100);
     }
+
+     /*Draw joystick*/
+     //if (gamepad.Update())
+     //       {
+     //           if (iter == 0)
+     //           {
+     //               canvas.Children.RemoveRange(3, 30);
+     //               iter = 30;
+     //           }
+     //           else
+     //           {
+     //               iter--;
+     //           }
+
+     //           double transformedX = 0 + (gamepad.left_x * 1.6);
+     //           double transformedY = 200 - (gamepad.left_y * 1.6);
+
+     //           Line myLine = new Line();
+     //           myLine.Stroke = System.Windows.Media.Brushes.LightSteelBlue;
+     //           myLine.X1 = oldX;
+     //           myLine.X2 = transformedX;
+     //           myLine.Y1 = oldY;
+     //           myLine.Y2 = transformedY;
+     //           myLine.StrokeThickness = 3;
+     //           myLine.Uid = "myline";
+     //           aLine = myLine;
+
+     //           oldX = transformedX;
+     //           oldY = transformedY;
+
+     //           canvas.Children.Add(myLine);
+     //       }
 }
