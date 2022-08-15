@@ -4,18 +4,17 @@
 
 @code {
     float left_x = XInputController.left_x;
-    
+
     float left_y = XInputController.left_y;
-    
+
     float right_x = XInputController.right_x;
-    
+
     float right_y = XInputController.right_y;
 
-    //repeatedly call update to get new values and then draw them on canvas
-    
-    protected void StartStrafeViewer()
+    private async Task UpdateJoySticks()
     {
-        
+        XInputController.Update();
+
     }
     
     private Canvas2DContext _context;
