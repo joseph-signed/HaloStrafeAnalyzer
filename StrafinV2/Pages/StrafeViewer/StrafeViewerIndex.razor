@@ -27,6 +27,7 @@
     protected BECanvasComponent _canvasReference;
     Timer timer;
     int a = 10;
+
     private void StartJoyStickUpdating()
     {
         timer = new Timer(UpdateJoySticksCallBack, null, 10, 30);
@@ -54,8 +55,8 @@
         await this.canvas.StrokeTextAsync(a.ToString(), 10, 100);
         a = a + 10;
 
-        double transformedX = 0 + (XInputController.left_x * 1.6);
-        double transformedY = 200 - (XInputController.left_y * 1.6);
+        //double transformedX = 0 + (XInputController.left_x * 1.6);
+        //double transformedY = 200 - (XInputController.left_y * 1.6);
 
         
         //Line myLine = new Line();
