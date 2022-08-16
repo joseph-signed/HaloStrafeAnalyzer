@@ -1,5 +1,5 @@
 ﻿@using Data
-<button class="btn btn-primary" @onclick="StartStrafeViewer">Start Viewer</button>
+<button class="btn btn-primary" @onclick="UpdateJoySticks">Start Viewer</button>
 <BECanvas Width="300" Height="400" @ref="_canvasReference"></BECanvas>
 
 @code {
@@ -11,7 +11,7 @@
 
     float right_y = XInputController.right_y;
 
-    private async Task UpdateJoySticks()
+    private void UpdateJoySticks()
     {
         XInputController.Update();
 

@@ -16,8 +16,20 @@
 
 <p role="status">Current right joystick Y position: @XInputController.right_y</p>
 
-<StrafeViewerCanvas></StrafeViewerCanvas>
+<button class="btn btn-primary" @onclick="StartJoyStickUpdating">Start Viewer</button>
 
-@code {}
+
+@code
+{
+    private void StartJoyStickUpdating()
+    {
+        var timer = new Timer(UpdateJoySticksCallBack, null, 10, 10);
+    }
+    private void UpdateJoySticksCallBack(object state)
+    {
+        XInputController.Update();
+        InvokeAsync(StateHasChanged);
+    }
+}
 
 
