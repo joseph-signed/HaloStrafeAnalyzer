@@ -25,7 +25,7 @@
     private Canvas2DContext _context;
     protected BECanvasComponent _canvasReference;
     Timer timer;
-
+    int a = 10;
     private void StartJoyStickUpdating()
     {
         timer = new Timer(UpdateJoySticksCallBack, null, 10, 30);
@@ -42,11 +42,14 @@
     {
         this._context = await this._canvasReference.CreateCanvas2DAsync();
         await this._context.SetFillStyleAsync("green");
+        
+        await this._context.FillRectAsync(a, 100, 100, 100);
+        
 
-        await this._context.FillRectAsync(10, 100, 100, 100);
-
+        
         await this._context.SetFontAsync("48px serif");
-        await this._context.StrokeTextAsync("Hello Blazor!!!", 10, 100);
+        await this._context.StrokeTextAsync(a.ToString(), 10, 100);
+        a = a + 10;
     }
 }
 
