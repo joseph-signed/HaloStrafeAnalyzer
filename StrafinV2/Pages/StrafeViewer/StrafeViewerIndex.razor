@@ -17,12 +17,13 @@
 <p role="status">Current right joystick Y position: @XInputController.right_y</p>
 
 <button class="btn btn-primary" @onclick="StartJoyStickUpdating">Start Viewer</button>
-
+<canvas id="myCanvas" width="200" height="100" style="border:1px solid #000000;">
+</canvas>
 <BECanvas Width="300" Height="400" @ref="_canvasReference"></BECanvas>
 
 @code
 {
-    private Canvas2DContext _context;
+    private Canvas2DContext canvas;
     protected BECanvasComponent _canvasReference;
     Timer timer;
     int a = 10;
@@ -40,16 +41,37 @@
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        this._context = await this._canvasReference.CreateCanvas2DAsync();
-        await this._context.SetFillStyleAsync("green");
+        this.canvas = await this._canvasReference.CreateCanvas2DAsync();
+        await this.canvas.SetFillStyleAsync("green");
         
-        await this._context.FillRectAsync(a, 100, 100, 100);
+        await this.canvas.FillRectAsync(a, 100, 100, 100);
+
+
         
 
         
-        await this._context.SetFontAsync("48px serif");
-        await this._context.StrokeTextAsync(a.ToString(), 10, 100);
+        await this.canvas.SetFontAsync("48px serif");
+        await this.canvas.StrokeTextAsync(a.ToString(), 10, 100);
         a = a + 10;
+
+        double transformedX = 0 + (XInputController.left_x * 1.6);
+        double transformedY = 200 - (XInputController.left_y * 1.6);
+
+        
+        //Line myLine = new Line();
+        //myLine.Stroke = System.Windows.Media.Brushes.LightSteelBlue;
+        //myLine.X1 = oldX;
+        //myLine.X2 = transformedX;
+        //myLine.Y1 = oldY;
+        //myLine.Y2 = transformedY;
+        //myLine.StrokeThickness = 3;
+        //myLine.Uid = "myline";
+        //aLine = myLine;
+
+        //oldX = transformedX;
+        //oldY = transformedY;
+
+        //canvas.Children.Add(myLine);
     }
 }
 
