@@ -3,9 +3,6 @@
 @using SharpDX.XInput
 @using StrafinV2.Data
 
-@inject IJSRuntime jsRuntimeService
-
-
 <h3>Strafe Viewer</h3>
 
 <p role="status">Current left joystick X position: @XInputController.left_x</p>
@@ -20,6 +17,8 @@
 <br />
 <br />
 
+<button class="@recordButton" disabled="@recording" @onclick=Record>Record</button>
+<button class="stop" disabled="@notRecording" @onclick=Stop>Stop</button>
 
 <div style="border:1px solid black; display: inline-block;">
         <BECanvas Width="200" Height="200" @ref="_leftCanvasReference"></BECanvas>
@@ -28,15 +27,36 @@
     <BECanvas Width="200" Height="200" @ref="_rightCanvasReference"></BECanvas>
 </div>
 
-<video autoplay controls></video>
 
 @code
 {
+    string recordButton = "record";
+
+    bool recording = false;
+    bool notRecording = true;
+
     private Canvas2DContext leftCanvas;
     protected BECanvasComponent _leftCanvasReference;
 
     private Canvas2DContext rightCanvas;
     protected BECanvasComponent _rightCanvasReference;
+
+    private async Task Record()
+    {
+        recordButton = "recording";
+        recording = true;
+        notRecording = false;
+        double x = oldLeftX;
+        double y = oldLeftY;
+    }
+
+    private async Task Stop()
+    {
+        recordButton = "record";
+        recording = false;
+        notRecording = true;
+    }
+
 
     Timer timer;
 
@@ -67,11 +87,6 @@
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        if (firstRender)
-        {
-            await jsRuntimeService.InvokeVoidAsync("startRecording");
-        }
-
         var leftCanvas = this.leftCanvas = await this._leftCanvasReference.CreateCanvas2DAsync();
         var rightCanvas = this.rightCanvas = await this._rightCanvasReference.CreateCanvas2DAsync();
 
