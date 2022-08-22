@@ -29,10 +29,12 @@
     protected BECanvasComponent _canvasReference;
     Timer timer;
 
-    double x = 100;
-    double y = 100;
-    double height = 2;
-    double width = 2;
+    double oldX = 100;
+    double oldY = 100;
+    double newX;
+    double newY;
+
+    int lineLength = 0;
 
     private void StartJoyStickUpdating()
     {
@@ -48,13 +50,30 @@
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        this.canvas = await this._canvasReference.CreateCanvas2DAsync();
-        await this.canvas.SetFillStyleAsync("red");
+        var canvas = this.canvas = await this._canvasReference.CreateCanvas2DAsync();
 
-        await this.canvas.FillRectAsync(x, y, width, height);
-    
-        x = XInputController.left_x + 100;
-        y = XInputController.left_y + 100;
+        await canvas.BeginPathAsync();
+        await canvas.SetStrokeStyleAsync("blue");
+
+
+        newX = XInputController.left_x + 100;
+        newY = XInputController.left_y + 100;
+
+        await canvas.MoveToAsync(oldX, oldY);
+        await canvas.LineToAsync(newX, newY);
+        await canvas.StrokeAsync();
+
+        oldX = newX;
+        oldY = newY;
+
+        //Clear screen
+        lineLength = lineLength + 1;
+        if(lineLength>40) 
+        { 
+            await canvas.ClearRectAsync(0, 0, 200, 200); 
+            lineLength = 0;
+            canvas.Dispose();
+        }
     }
 }
 
