@@ -20,21 +20,34 @@
 <br />
 <br />
 <div style="border:1px solid black; display: inline-block;">
-    <BECanvas Width="200" Height="200" @ref="_canvasReference"></BECanvas>
+    <BECanvas Width="200" Height="200" @ref="_leftCanvasReference"></BECanvas>
+</div>
+<div style="border:1px solid black; display: inline-block;">
+    <BECanvas Width="200" Height="200" @ref="_rightCanvasReference"></BECanvas>
 </div>
 
 @code
 {
-    private Canvas2DContext canvas;
-    protected BECanvasComponent _canvasReference;
+    private Canvas2DContext leftCanvas;
+    protected BECanvasComponent _leftCanvasReference;
+
+    private Canvas2DContext rightCanvas;
+    protected BECanvasComponent _rightCanvasReference;
+
     Timer timer;
 
-    double oldX = 100;
-    double oldY = 100;
-    double newX;
-    double newY;
+    double oldLeftX = 100;
+    double oldLeftY = 100;
+    double newLeftX;
+    double newLeftY;
 
-    int lineLength = 0;
+    double oldRightX = 100;
+    double oldRightY = 100;
+    double newRightX;
+    double newRightY;
+
+    int leftLineLength = 0;
+    int rightLineLength = 0;
 
     private void StartJoyStickUpdating()
     {
@@ -50,29 +63,49 @@
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        var canvas = this.canvas = await this._canvasReference.CreateCanvas2DAsync();
+        var leftCanvas = this.leftCanvas = await this._leftCanvasReference.CreateCanvas2DAsync();
+        var rightCanvas = this.rightCanvas = await this._rightCanvasReference.CreateCanvas2DAsync();
 
-        await canvas.BeginPathAsync();
-        await canvas.SetStrokeStyleAsync("blue");
+        await leftCanvas.BeginPathAsync();
+        await leftCanvas.SetStrokeStyleAsync("blue");
+
+        await rightCanvas.BeginPathAsync();
+        await rightCanvas.SetStrokeStyleAsync("blue");
 
 
-        newX = XInputController.left_x + 100;
-        newY = XInputController.left_y + 100;
+        newLeftX = XInputController.left_x + 100;
+        newLeftY = XInputController.left_y + 100;
 
-        await canvas.MoveToAsync(oldX, oldY);
-        await canvas.LineToAsync(newX, newY);
-        await canvas.StrokeAsync();
+        await leftCanvas.MoveToAsync(oldLeftX, oldLeftY);
+        await leftCanvas.LineToAsync(newLeftX, newLeftY);
+        await leftCanvas.StrokeAsync();
 
-        oldX = newX;
-        oldY = newY;
+        oldLeftX = newLeftX;
+        oldLeftY = newLeftY;
+
+        newRightX = XInputController.right_x + 100;
+        newRightY = XInputController.right_y + 100;
+
+        await rightCanvas.MoveToAsync(oldRightX, oldRightY);
+        await rightCanvas.LineToAsync(newRightX, newRightY);
+        await rightCanvas.StrokeAsync();
+
+        oldRightX = newRightX;
+        oldRightY = newRightY;
 
         //Clear screen
-        lineLength = lineLength + 1;
-        if(lineLength>40) 
-        { 
-            await canvas.ClearRectAsync(0, 0, 200, 200); 
-            lineLength = 0;
-            canvas.Dispose();
+        leftLineLength = leftLineLength + 1;
+        if (leftLineLength > 40)
+        {
+            await leftCanvas.ClearRectAsync(0, 0, 200, 200);
+            leftLineLength = 0;
+        }
+
+        rightLineLength = rightLineLength + 1;
+        if (rightLineLength > 40)
+        {
+            await rightCanvas.ClearRectAsync(0, 0, 200, 200);
+            rightLineLength = 0;
         }
     }
 }
