@@ -15,19 +15,19 @@
 <p role="status">Current right joystick X position: @XInputController.right_x</p>
 
 <p role="status">Current right joystick Y position: @XInputController.right_y</p>
-<button id="btn"></button>
+
 <button class="btn btn-primary" @onclick="StartJoyStickUpdating">Start Viewer</button>
 <br />
 <br />
 
+
 <div style="border:1px solid black; display: inline-block;">
-    <canvas id="record">
         <BECanvas Width="200" Height="200" @ref="_leftCanvasReference"></BECanvas>
-    </canvas>
 </div>
 <div style="border:1px solid black; display: inline-block;">
     <BECanvas Width="200" Height="200" @ref="_rightCanvasReference"></BECanvas>
 </div>
+
 <video autoplay controls></video>
 
 @code
@@ -67,6 +67,11 @@
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
+        if (firstRender)
+        {
+            await jsRuntimeService.InvokeVoidAsync("startRecording");
+        }
+
         var leftCanvas = this.leftCanvas = await this._leftCanvasReference.CreateCanvas2DAsync();
         var rightCanvas = this.rightCanvas = await this._rightCanvasReference.CreateCanvas2DAsync();
 
