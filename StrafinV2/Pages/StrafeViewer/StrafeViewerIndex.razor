@@ -20,7 +20,7 @@
 <br />
 <br />
 <div style="border:1px solid black; display: inline-block;">
-    <BECanvas Width="100" Height="100" @ref="_canvasReference"></BECanvas>
+    <BECanvas Width="200" Height="200" @ref="_canvasReference"></BECanvas>
 </div>
 
 @code
@@ -28,10 +28,11 @@
     private Canvas2DContext canvas;
     protected BECanvasComponent _canvasReference;
     Timer timer;
-    double x = 25;
-    double y = 25;
-    double height = 1;
-    double width = 1;
+
+    double x = 100;
+    double y = 100;
+    double height = 2;
+    double width = 2;
 
     private void StartJoyStickUpdating()
     {
@@ -51,26 +52,9 @@
         await this.canvas.SetFillStyleAsync("red");
 
         await this.canvas.FillRectAsync(x, y, width, height);
-        x = x + 1;
-
-        //double transformedX = 0 + (XInputController.left_x * 1.6);
-        //double transformedY = 200 - (XInputController.left_y * 1.6);
-
-        
-        //Line myLine = new Line();
-        //myLine.Stroke = System.Windows.Media.Brushes.LightSteelBlue;
-        //myLine.X1 = oldX;
-        //myLine.X2 = transformedX;
-        //myLine.Y1 = oldY;
-        //myLine.Y2 = transformedY;
-        //myLine.StrokeThickness = 3;
-        //myLine.Uid = "myline";
-        //aLine = myLine;
-
-        //oldX = transformedX;
-        //oldY = transformedY;
-
-        //canvas.Children.Add(myLine);
+    
+        x = XInputController.left_x + 100;
+        y = XInputController.left_y + 100;
     }
 }
 
