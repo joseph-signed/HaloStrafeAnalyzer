@@ -3,16 +3,18 @@
 @using SharpDX.XInput
 @using StrafinV2.Data
 
+@inject IJSRuntime JS
+
 <h3>Strafe Viewer</h3>
 
-<p role="status">Current left joystick X position: @XInputController.left_x</p>
+@*<p role="status">Current left joystick X position: @XInputController.left_x</p>
 
 <p role="status">Current left joystick Y position: @XInputController.left_y</p>
 
 <p role="status">Current right joystick X position: @XInputController.right_x</p>
 
 <p role="status">Current right joystick Y position: @XInputController.right_y</p>
-
+*@
 <button class="btn btn-primary" @onclick="StartJoyStickUpdating">Start Viewer</button>
 <br />
 <br />
@@ -27,9 +29,12 @@
     <BECanvas Width="200" Height="200" @ref="_rightCanvasReference"></BECanvas>
 </div>
 
+<p>Wait for 5 seconds...</p>
+<video autoplay download></video>
 
 @code
 {
+    
     string recordButton = "record";
 
     bool recording = false;
@@ -46,8 +51,7 @@
         recordButton = "recording";
         recording = true;
         notRecording = false;
-        double x = oldLeftX;
-        double y = oldLeftY;
+        await JS.InvokeVoidAsync("startRecording");
     }
 
     private async Task Stop()
@@ -55,6 +59,7 @@
         recordButton = "record";
         recording = false;
         notRecording = true;
+        await JS.InvokeVoidAsync("stopRecording");
     }
 
 
