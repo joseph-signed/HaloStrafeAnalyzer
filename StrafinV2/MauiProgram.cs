@@ -9,6 +9,7 @@ namespace StrafinV2
         {
             var builder = MauiApp.CreateBuilder();
             builder
+
                 .UseMauiApp<App>()
                 .ConfigureFonts(fonts =>
                 {
