@@ -7,46 +7,46 @@
 
 <h3>Strafe Viewer</h3>
 
-@*<p role="status">Current left joystick X position: @XInputController.left_x</p>
-
-<p role="status">Current left joystick Y position: @XInputController.left_y</p>
-
-<p role="status">Current right joystick X position: @XInputController.right_x</p>
-
-<p role="status">Current right joystick Y position: @XInputController.right_y</p>
-*@
-<button class="btn btn-primary" @onclick="StartJoyStickUpdating">Start Viewer</button>
-<br />
-<br />
-
-<button class="@recordButton" disabled="@recording" @onclick=Record>Record</button>
-<button class="stop" disabled="@notRecording" @onclick=Stop>Stop</button>
+<button class="@recordButton" disabled="@recording" @onclick=StartRecording>Record</button>
+<button class="stop" disabled="@notRecording" @onclick=StopRecording>Stop</button>
 
 <div style="border:1px solid black; display: inline-block;">
-        <BECanvas Width="200" Height="200" @ref="_leftCanvasReference"></BECanvas>
+    <BECanvas Width="@canvasSize" Height="@canvasSize" @ref="_leftCanvasReference"></BECanvas>
 </div>
 <div style="border:1px solid black; display: inline-block;">
-    <BECanvas Width="200" Height="200" @ref="_rightCanvasReference"></BECanvas>
+    <BECanvas Width="@canvasSize" Height="canvasSize" @ref="_rightCanvasReference"></BECanvas>
 </div>
 
-<p>Wait for 5 seconds...</p>
 <video autoplay download></video>
 
 @code
 {
-    
-    string recordButton = "record";
+    private Canvas2DContext leftCanvas, rightCanvas;
+    protected BECanvasComponent _leftCanvasReference, _rightCanvasReference;
 
+    Timer timer;
+
+    int canvasSize = 200;
+    int lineRefreshRate = 40;
+
+    double oldLeftX = 100;
+    double oldLeftY = 100;
+    double newLeftX = 0;
+    double newLeftY = 0;
+
+    double oldRightX = 100;
+    double oldRightY = 100;
+    double newRightX = 0;
+    double newRightY = 0;
+
+    int leftLineLength = 0;
+    int rightLineLength = 0;
+
+    string recordButton = "record";
     bool recording = false;
     bool notRecording = true;
 
-    private Canvas2DContext leftCanvas;
-    protected BECanvasComponent _leftCanvasReference;
-
-    private Canvas2DContext rightCanvas;
-    protected BECanvasComponent _rightCanvasReference;
-
-    private async Task Record()
+    private async Task StartRecording()
     {
         recordButton = "recording";
         recording = true;
@@ -54,7 +54,7 @@
         await JS.InvokeVoidAsync("startRecording");
     }
 
-    private async Task Stop()
+    private async Task StopRecording()
     {
         recordButton = "record";
         recording = false;
@@ -62,21 +62,10 @@
         await JS.InvokeVoidAsync("stopRecording");
     }
 
-
-    Timer timer;
-
-    double oldLeftX = 100;
-    double oldLeftY = 100;
-    double newLeftX;
-    double newLeftY;
-
-    double oldRightX = 100;
-    double oldRightY = 100;
-    double newRightX;
-    double newRightY;
-
-    int leftLineLength = 0;
-    int rightLineLength = 0;
+    protected override async Task OnInitializedAsync()
+    {
+        StartJoyStickUpdating();
+    }
 
     private void StartJoyStickUpdating()
     {
@@ -124,16 +113,20 @@
 
         //Clear screen
         leftLineLength = leftLineLength + 1;
-        if (leftLineLength > 40)
+        if (leftLineLength > lineRefreshRate)
         {
-            await leftCanvas.ClearRectAsync(0, 0, 200, 200);
+            await leftCanvas.ClearRectAsync(0, 0, canvasSize, canvasSize);
+            await leftCanvas.SetFillStyleAsync("white");
+            await leftCanvas.FillRectAsync(0, 0, canvasSize, canvasSize);
             leftLineLength = 0;
         }
 
         rightLineLength = rightLineLength + 1;
-        if (rightLineLength > 40)
+        if (rightLineLength > lineRefreshRate)
         {
-            await rightCanvas.ClearRectAsync(0, 0, 200, 200);
+            await rightCanvas.ClearRectAsync(0, 0, canvasSize, canvasSize);
+            await rightCanvas.SetFillStyleAsync("white");
+            await rightCanvas.FillRectAsync(0, 0, canvasSize, canvasSize);
             rightLineLength = 0;
         }
     }
