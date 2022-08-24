@@ -29,7 +29,9 @@
     Timer timer;
 
     int canvasSize = 200;
-    int lineRefreshRate = 20;
+    int lineRefreshRate = 40;
+    float lineWidth = 0;
+    string rgbColor = "";
 
     double oldLeftX = 100;
     double oldLeftY = 100;
@@ -67,7 +69,7 @@
 
     private async Task StartJoyStickUpdating()
     {
-        timer = new Timer(UpdateJoySticksCallBack, null, 10, 100);
+        timer = new Timer(UpdateJoySticksCallBack, null, 10, 30);
     }
 
     private async void UpdateJoySticksCallBack(object state)
@@ -79,15 +81,36 @@
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
+        if (leftLineLength > 30)
+        {
+            rgbColor = "#99ff99";
+            lineWidth = 0.25F;
+        } 
+        else if (leftLineLength > 20)
+        {
+            rgbColor = "#b3ffb3";
+            lineWidth = 0.5F;
+        }
+        else if (leftLineLength > 10)
+        {
+            rgbColor = "#ccffcc";
+            lineWidth = 1;
+        }
+        else
+        {
+            rgbColor = "#e6ffe6";
+            lineWidth = 2;
+        }
+
         var leftCanvas = this.leftCanvas = await this._leftCanvasReference.CreateCanvas2DAsync();
         var rightCanvas = this.rightCanvas = await this._rightCanvasReference.CreateCanvas2DAsync();
 
         await leftCanvas.BeginPathAsync();
-        await leftCanvas.SetStrokeStyleAsync("blue");
+        await leftCanvas.SetStrokeStyleAsync(rgbColor);
+        await leftCanvas.SetLineWidthAsync(lineWidth);
 
         await rightCanvas.BeginPathAsync();
         await rightCanvas.SetStrokeStyleAsync("blue");
-
 
         newLeftX = XInputController.left_x + 100;
         newLeftY = XInputController.left_y + 100;
