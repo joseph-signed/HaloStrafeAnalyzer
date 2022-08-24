@@ -29,7 +29,7 @@
     Timer timer;
 
     int canvasSize = 200;
-    int lineRefreshRate = 40;
+    int lineRefreshRate = 20;
 
     double oldLeftX = 100;
     double oldLeftY = 100;
@@ -50,6 +50,7 @@
 
     private async Task StartRecording()
     {
+        await Task.Run(() => StartJoyStickUpdating());
         recordButton = "recording";
         recording = true;
         notRecording = false;
@@ -64,14 +65,9 @@
         await JS.InvokeVoidAsync("stopRecording");
     }
 
-    protected override async Task OnInitializedAsync()
+    private async Task StartJoyStickUpdating()
     {
-        StartJoyStickUpdating();
-    }
-
-    private void StartJoyStickUpdating()
-    {
-        timer = new Timer(UpdateJoySticksCallBack, null, 10, 30);
+        timer = new Timer(UpdateJoySticksCallBack, null, 10, 100);
     }
 
     private async void UpdateJoySticksCallBack(object state)
@@ -118,8 +114,6 @@
         if (leftLineLength > lineRefreshRate)
         {
             await leftCanvas.ClearRectAsync(0, 0, canvasSize, canvasSize);
-            await leftCanvas.SetFillStyleAsync("white");
-            await leftCanvas.FillRectAsync(0, 0, canvasSize, canvasSize);
             leftLineLength = 0;
         }
 
@@ -127,8 +121,6 @@
         if (rightLineLength > lineRefreshRate)
         {
             await rightCanvas.ClearRectAsync(0, 0, canvasSize, canvasSize);
-            await rightCanvas.SetFillStyleAsync("white");
-            await rightCanvas.FillRectAsync(0, 0, canvasSize, canvasSize);
             rightLineLength = 0;
         }
     }
