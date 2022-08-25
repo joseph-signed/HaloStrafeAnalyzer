@@ -17,9 +17,9 @@
     <BECanvas Width="@canvasSize" Height="canvasSize" @ref="_rightCanvasReference"></BECanvas>
 </div>
 
-<video id="left" autoplay controls download></video>
+<video id="left" autoplay></video>
 
-<video id="right" autoplay download></video>
+<video id="right" autoplay></video>
 
 @code
 {
@@ -65,7 +65,21 @@
         recording = false;
         notRecording = true;
         await JS.InvokeVoidAsync("stopRecording");
-        leftCanvas.Dispose();
+
+        //Reset everything
+        timer.Dispose();
+        lineRefreshRate = 50;
+        lineWidth = 1;
+        rgbColor = "";
+
+        oldLeftX = 100;
+        oldLeftY = 100;
+        newLeftX = 0;
+        newLeftY = 0;
+
+        leftLineLength = 0;
+
+        await leftCanvas.ClearRectAsync(0, 0, canvasSize, canvasSize);
     }
 
     private async Task StartJoyStickUpdating()
@@ -82,7 +96,7 @@
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        if (leftLineLength > lineRefreshRate*.95)
+        if (leftLineLength > lineRefreshRate * .95)
         {
             rgbColor = "#d6d6f5";
             lineWidth = 0.15F;
