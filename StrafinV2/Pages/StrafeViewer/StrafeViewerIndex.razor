@@ -80,6 +80,8 @@
         leftLineLength = 0;
 
         await leftCanvas.ClearRectAsync(0, 0, canvasSize, canvasSize);
+        await leftCanvas.SetFillStyleAsync("white");
+        await leftCanvas.FillRectAsync(0, 0, canvasSize, canvasSize);
     }
 
     private async Task StartJoyStickUpdating()
@@ -147,6 +149,7 @@
             lineWidth = 1;
         }
 
+        //Does this make sense or can this be global?
         var leftCanvas = this.leftCanvas = await this._leftCanvasReference.CreateCanvas2DAsync();
         var rightCanvas = this.rightCanvas = await this._rightCanvasReference.CreateCanvas2DAsync();
 
@@ -182,6 +185,8 @@
         if (leftLineLength > lineRefreshRate)
         {
             await leftCanvas.ClearRectAsync(0, 0, canvasSize, canvasSize);
+            await leftCanvas.SetFillStyleAsync("white");
+            await leftCanvas.FillRectAsync(0, 0, canvasSize, canvasSize);
             leftLineLength = 0;
         }
 
